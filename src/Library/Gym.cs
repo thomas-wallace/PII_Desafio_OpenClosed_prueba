@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Ucu.Poo.Ocp
 {
@@ -8,6 +9,8 @@ namespace Ucu.Poo.Ocp
     /// </summary>
     public class Gym
     {
+        private List<IAcceso> reglas;
+
         /// <summary>
         /// Determina si un usuario puede ingresar al gimnasio en un día y hora.
         /// </summary>
@@ -15,69 +18,32 @@ namespace Ucu.Poo.Ocp
         /// <param name="date"></param>
         /// <param name="hour"></param>
         /// <returns></returns>
-        public bool CanEnter(Membership membership, DateTime date, int hour)
+        ///
+
+        public Gym()
         {
-            DayOfWeek dayOfWeek = date.DayOfWeek;
 
-            // De lunes a viernes temprano en la mañana
-            if ((dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Tuesday ||
-                dayOfWeek == DayOfWeek.Wednesday || dayOfWeek == DayOfWeek.Thursday ||
-                dayOfWeek == DayOfWeek.Friday) && hour >= 6 && hour < 10)
+
+            reglas = new List<IAcceso>
             {
-                if (membership == Membership.Premium)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            // De lunes a viernes durante el día antes de la hora pico
-            if ((dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Tuesday ||
-                dayOfWeek == DayOfWeek.Wednesday || dayOfWeek == DayOfWeek.Thursday ||
-                dayOfWeek == DayOfWeek.Friday) && hour >= 10 && hour < 17)
-            {
-                if (membership == Membership.Premium ||
-                    membership == Membership.Basic ||
-                    membership == Membership.DayPass)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            // De lunes a viernes en hora pico
-            if ((dayOfWeek == DayOfWeek.Monday || dayOfWeek == DayOfWeek.Tuesday ||
-                dayOfWeek == DayOfWeek.Wednesday || dayOfWeek == DayOfWeek.Thursday ||
-                dayOfWeek == DayOfWeek.Friday) && hour >= 17 && hour < 21)
-            {
-                if (membership == Membership.Premium || membership == Membership.Basic)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            // Sábados
-            if (dayOfWeek == DayOfWeek.Saturday && hour >= 8 && hour < 20)
-            {
-                if (membership == Membership.Premium || membership == Membership.Basic)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            // Domingos
-            if (dayOfWeek == DayOfWeek.Sunday)
-            {
-                return false;
-            }
-
-            return false;
+                new MananaPremium(),
+                new HorarioNormal(),
+                new Feriados(),
+            };
         }
+
+        public bool CanEnter(Membership membership, DateTime date, int hour)
+            {
+                foreach (var rule in this.reglas)
+                {
+                     if (rule.EsValido(membership, date, hour))
+                    {
+                        return true; 
+                    }
+                }
+
+                return false; 
+            }
+        
     }
 }
