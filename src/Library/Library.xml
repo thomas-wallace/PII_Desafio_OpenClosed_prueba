@@ -25,14 +25,15 @@
             tipo de usuario, día de la semana y hora del día.
             </summary>
         </member>
-        <member name="M:Ucu.Poo.Ocp.Gym.CanEnter(Ucu.Poo.Ocp.Membership,System.DateTime,System.Int32)">
-            <summary>
-            Determina si un usuario puede ingresar al gimnasio en un día y hora.
-            </summary>
-            <param name="membership"></param>
-            <param name="date"></param>
-            <param name="hour"></param>
-            <returns></returns>
+        <member name="M:Ucu.Poo.Ocp.Gym.#ctor">
+             <summary>
+             Determina si un usuario puede ingresar al gimnasio en un día y hora.
+             </summary>
+             <param name="membership"></param>
+             <param name="date"></param>
+             <param name="hour"></param>
+             <returns></returns>
+            
         </member>
         <member name="T:Ucu.Poo.Ocp.Membership">
             <summary>
